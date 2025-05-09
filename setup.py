@@ -6,6 +6,15 @@ from setuptools import (
 
 MYPY_REQUIREMENT = "mypy==1.10.0"
 
+try:
+    from mypyc.build import mypycify
+except ImportError:
+    ext_modules = []
+else:
+    ext_modules = mypycify(
+        ["eth_utils/conversions.py", "eth_utils/encoding.py"],
+    )
+
 extras_require = {
     "dev": [
         "build>=0.9.0",
@@ -81,4 +90,5 @@ setup(
         "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: 3.13",
     ],
+    ext_modules=ext_modules,
 )
