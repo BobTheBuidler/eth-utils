@@ -87,11 +87,7 @@ def is_normalized_address(value: Any) -> bool:
     """
     Returns whether the provided value is an address in its normalized form.
     """
-    if not is_address(value):
-        return False
-    else:
-        is_equal = value == to_normalized_address(value)
-        return cast(bool, is_equal)
+    return is_address(value) and value == to_normalized_address(value)
 
 
 def to_canonical_address(address: Union[AnyAddress, str, bytes]) -> Address:
@@ -118,7 +114,7 @@ def is_same_address(left: AnyAddress, right: AnyAddress) -> bool:
     if not is_address(left) or not is_address(right):
         raise ValueError("Both values must be valid addresses")
     else:
-        return bool(to_normalized_address(left) == to_normalized_address(right))
+        return to_normalized_address(left) == to_normalized_address(right)
 
 
 def to_checksum_address(value: Union[AnyAddress, str, bytes]) -> ChecksumAddress:
