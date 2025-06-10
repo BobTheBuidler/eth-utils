@@ -41,13 +41,13 @@ def to_hex(
     https://github.com/ethereum/wiki/wiki/JSON-RPC#hex-value-encoding
     """
     if hexstr is not None:
-        return add_0x_prefix(HexStr(hexstr.lower()))
+        return add_0x_prefix(hexstr.lower())  # type: ignore [arg-type]
 
     if text is not None:
         return encode_hex(text.encode("utf-8"))
 
     if isinstance(primitive, bool):
-        return HexStr("0x1") if primitive else HexStr("0x0")
+        return "0x1" if primitive else "0x0"  # type: ignore [return-value]
 
     if isinstance(primitive, (bytes, bytearray)):
         return encode_hex(primitive)
@@ -62,7 +62,7 @@ def to_hex(
         )
 
     if isinstance(primitive, int):
-        return HexStr(hex(primitive))
+        return hex(primitive)  # type: ignore [return-value]
 
     raise TypeError(
         f"Unsupported type: '{repr(type(primitive))}'. Must be one of: bool, str, "
@@ -179,7 +179,7 @@ def hexstr_if_str(
     :param hexstr_or_primitive bytes, str, int: value to convert
     """
     if isinstance(hexstr_or_primitive, str):
-        if remove_0x_prefix(HexStr(hexstr_or_primitive)) and not is_hexstr(
+        if remove_0x_prefix(hexstr_or_primitive) and not is_hexstr(  # type: ignore [arg-type]
             hexstr_or_primitive
         ):
             raise ValueError(
